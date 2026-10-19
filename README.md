@@ -17,9 +17,9 @@ I am a Computer Science and Engineering student interested in software developme
 ## Projects
 
 - **Stylentra — E-Commerce Website:** A fashion e-commerce website project.
-- **Bank Management System:** A project focused on banking operations.
+- **ConverAI:** An AI-based project.
 
 ## Contact
 
 - GitHub: [Aditya957258](https://github.com/Aditya957258)
-- Resume: [View my resume](https://aditya957258.github.io/Aditya_Kumar.pdf)
+- Resume: [View My Resume](https://aditya957258.github.io/Aditya_Kumar.pdf)
