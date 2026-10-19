@@ -380,19 +380,50 @@
       revealElements.forEach(el => el.classList.add("visible"));
     }
 
-    document.getElementById("contactForm").addEventListener("submit", event => {
-      event.preventDefault();
-      const form = event.currentTarget;
-      if (!form.reportValidity()) return;
-      const data = new FormData(form);
-      const name = String(data.get("name")).trim();
-      const email = String(data.get("email")).trim();
-      const subject = String(data.get("subject")).trim();
-      const message = String(data.get("message")).trim();
-      const body = ["Name: " + name, "Email: " + email, "", message].join("\\n");
-      document.getElementById("formNote").textContent = "Opening your email application. If it does not open, email aditya957258@gmail.com directly.";
-      window.location.href = "mailto:aditya957258@gmail.com?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+    
+    document.getElementById("contactForm").addEventListener("submit", async event => {
+    event.preventDefault();
+
+    const form = event.currentTarget;
+    if (!form.reportValidity()) return;
+
+    const formNote = document.getElementById("formNote");
+    const submitButton = form.querySelector('button[type="submit"]');
+    const originalText = submitButton.textContent;
+
+    submitButton.disabled = true;
+    submitButton.textContent = "Sending...";
+    formNote.textContent = "Sending your message...";
+
+    try {
+    const response = await fetch("https://formspree.io/f/xwlvzayr", {
+      method: "POST",
+      body: new FormData(form),
+      headers: {
+        Accept: "application/json"
+      }
     });
+
+    const result = await response.json();
+
+    if (response.ok) {
+      formNote.textContent =
+        "Message sent successfully! Thank you for contacting me.";
+      form.reset();
+    } else {
+      formNote.textContent =
+        result.errors?.map(error => error.message).join(" ") ||
+        "Unable to send your message. Please try again.";
+    }
+  } catch (error) {
+    formNote.textContent =
+      "Network error. Please check your connection and try again.";
+  } finally {
+    submitButton.disabled = false;
+    submitButton.textContent = originalText;
+  }
+});
+
     document.getElementById("year").textContent = new Date().getFullYear();
   </script>
 </body>
